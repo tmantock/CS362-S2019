@@ -753,7 +753,7 @@ int adventurer_effect(int player, struct gameState *state)
 
     drawCard(player, state);
 
-    int drawnCard = state->hand[player][state->handCount[player] - 1]; //top card of hand is most recently drawn card.
+    int drawnCard = state->hand[player][state->handCount[player] - 1]; // top card of hand is most recently drawn card.
 
     if (drawnCard == copper || drawnCard == silver || drawnCard == gold)
     {
@@ -762,7 +762,7 @@ int adventurer_effect(int player, struct gameState *state)
     else
     {
       tempHand[z] = drawnCard;
-      state->handCount[player]--; //this should just remove the top card (the most recently drawn one).
+      state->handCount[player]--; // this should just remove the top card (the most recently drawn one).
       z++;
     }
   }
