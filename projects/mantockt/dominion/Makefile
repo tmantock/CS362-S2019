@@ -54,6 +54,15 @@ cardtest3: cardtest3.c dominion.o rngs.o assertion.o
 cardtest4: cardtest4.c dominion.o rngs.o assertion.o
 	gcc -o cardtest4 cardtest4.c -g dominion.o rngs.o assertion.o $(CFLAGS)
 
+randomtestcard1: randomtestcard1.c dominion.o rngs.o
+	gcc -o randomtestcard1 randomtestcard1.c assertion.c -g dominion.o rngs.o $(CFLAGS)
+
+randomtestcard2: randomtestcard2.c dominion.o rngs.o
+	gcc -o randomtestcard2 randomtestcard2.c assertion.c -g dominion.o rngs.o $(CFLAGS)
+
+randomtestadventurer: randomtestadventurer.c dominion.o rngs.o
+	gcc -o randomtestadventurer randomtestadventurer.c assertion.c -g dominion.o rngs.o $(CFLAGS)
+
 unittestresults: unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4
 	echo "######## Unit Test 1 #######" >> unittestresults.out
 	./unittest1 >> unittestresults.out
@@ -88,6 +97,18 @@ unittestresults: unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 car
 	gcov -f -b dominion.c >> unittestresults.out
 	cat dominion.c.gcov >> unittestresults.out
 
+randomtestresults: randomtestcard1 randomtestcard2 randomtestadventurer
+	rm -rf randomtestresults.out
+	echo "######## Random Test 1 #######" >> randomtestresults.out
+	./randomtestcard1 >> randomtestresults.out
+	gcov -f -b dominion.c | python gcov_function_result.py steward_effect >> randomtestresults.out
+	echo "######## Random Test 2 #######" >> randomtestresults.out
+	./randomtestcard2 >> randomtestresults.out
+	gcov -f -b dominion.c | python gcov_function_result.py smithy_effect >> randomtestresults.out
+	echo "######## Random Test Adventurer #######" >> randomtestresults.out
+	./randomtestadventurer >> randomtestresults.out
+	gcov -f -b dominion.c | python gcov_function_result.py adventurer_effect >> randomtestresults.out
+
 runtests: testDrawCard 
 	./testDrawCard &> unittestresult.out
 	gcov dominion.c >> unittestresult.out
@@ -102,3 +123,4 @@ all: playdom player
 clean:
 	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe
 	rm -rf unittest1 unittest2 unittest3 unittest4 cardtest1 cardtest2 cardtest3 cardtest4
+	rm -rf randomtestcard1 randomtestcard2 randomtestadventurer

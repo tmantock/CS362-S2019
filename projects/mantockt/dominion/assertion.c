@@ -14,6 +14,11 @@ int equals(int a, int b)
   return a == b;
 }
 
+int not_equals(int a, int b)
+{
+  return !equals(a, b);
+}
+
 int greater_than(int a, int b)
 {
   return a > b;
@@ -55,7 +60,7 @@ int array_copy(int *A, int size_a, int *B, int size_b)
   return 0;
 }
 
-void assert_that(int result, char *name, char *description)
+int assert_that(int result, char *name, char *description)
 {
   if (result == 0)
   {
@@ -65,4 +70,16 @@ void assert_that(int result, char *name, char *description)
   {
     printf("%s: PASS: %s\n", name, description);
   }
+
+  return result == 1;
+}
+
+int not_in_array(int *A, int size_a, int value)
+{
+  for (int i = 0; i < size_a; i++)
+  {
+    if (A[i] == value)
+      return 0;
+  }
+  return 1;
 }
